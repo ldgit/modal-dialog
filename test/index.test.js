@@ -39,6 +39,14 @@ describe('modal dialog openDialog function', () => {
     assert.strictEqual(document.body.innerHTML.trim(), '');
   });
 
+  it('should add close button first, html content second', () => {
+    makeOpenDialog(document, '<div data-testid="content"></div>');
+    const modalDivChildren = sel(document.body, 'modal-div').childNodes;
+    
+    assert.equal(modalDivChildren[0].getAttribute('data-testid'), 'modal-close-button');
+    assert.equal(modalDivChildren[1].getAttribute('data-testid'), 'content');
+  });
+
   describe('behavior when dialog is opened', () => {
     it('should close when close button is clicked', () => {
       makeOpenDialog(document, '');

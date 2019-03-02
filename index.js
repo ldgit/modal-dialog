@@ -1,14 +1,8 @@
 export function makeOpenDialog(document, htmlContent) {
-  const modalOverlay = document.createElement('div');
-  modalOverlay.setAttribute('data-testid', 'modal-overlay');
-  const modalDiv = document.createElement('div');
-  modalDiv.setAttribute('data-testid', 'modal-div');
-  modalDiv.innerHTML = htmlContent;
+  const modalOverlay = createModalOverlay(document);
+  const modalDiv = createModalDiv(document, htmlContent, closeDialog);
+
   modalOverlay.appendChild(modalDiv);
-  const closeButton = document.createElement('span');
-  closeButton.setAttribute('data-testid', 'modal-close-button');
-  closeButton.addEventListener('click', closeDialog);
-  modalDiv.appendChild(closeButton);
   document.body.appendChild(modalOverlay);
 
   function closeDialog() {
@@ -22,4 +16,30 @@ export function makeOpenDialog(document, htmlContent) {
   });
 
   return closeDialog;
+}
+
+function createModalOverlay(document) {
+  const modalOverlay = document.createElement('div');
+  modalOverlay.setAttribute('data-testid', 'modal-overlay');
+
+  return modalOverlay;
+}
+
+function createModalDiv(document, htmlContent, closeDialog) {
+  const modalDiv = document.createElement('div');
+  const closeButton = createCloseButton(document, closeDialog);
+
+  modalDiv.setAttribute('data-testid', 'modal-div');
+  modalDiv.innerHTML = htmlContent;
+  modalDiv.insertBefore(closeButton, modalDiv.firstChild);
+
+  return modalDiv;
+}
+
+function createCloseButton(document, closeDialog) {
+  const closeButton = document.createElement('span');
+  closeButton.setAttribute('data-testid', 'modal-close-button');
+  closeButton.addEventListener('click', closeDialog);
+
+  return closeButton;
 }
