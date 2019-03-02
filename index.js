@@ -1,3 +1,7 @@
+export default function openDialog(htmlContent) {
+  return makeOpenDialog(document, htmlContent);
+}
+
 export function makeOpenDialog(document, htmlContent) {
   const modalOverlay = createModalOverlay(document);
   const modalDiv = createModalDiv(document, htmlContent, closeDialog);
@@ -7,9 +11,9 @@ export function makeOpenDialog(document, htmlContent) {
 
   function closeDialog() {
     modalOverlay.parentNode.removeChild(modalOverlay);
-  };
+  }
 
-  modalOverlay.addEventListener('click', function(event) {
+  modalOverlay.addEventListener('click', (event) => {
     if (!modalDiv.contains(event.target)) {
       closeDialog();
     }

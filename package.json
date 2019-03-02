@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --require @babel/register",
-    "test:watch": "npm t -- --watch"
+    "test:watch": "npm t -- --watch",
+    "lint": "eslint ./"
   },
   "author": "me",
   "license": "MIT",
@@ -13,6 +14,9 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
+    "eslint": "^5.15.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
     "jsdom": "^13.2.0",
     "mocha": "^6.0.2"
   }

@@ -6,7 +6,7 @@ describe('modal dialog openDialog function', () => {
   let document;
   let window;
   let click;
-  
+
   beforeEach(() => {
     ({ document, window } = getBrowserEnvironment());
     click = clickOnElement.bind(null, window);
@@ -23,10 +23,10 @@ describe('modal dialog openDialog function', () => {
 
   it('should insert given string content into modal div as html', () => {
     makeOpenDialog(document, '<div data-testid="new-html">Important info</div>');
-    
+
     const modalDiv = sel(document.body, 'modal-div');
     const htmlInModalDialog = sel(modalDiv, 'new-html');
-    
+
     assert.equal(htmlInModalDialog.textContent, 'Important info');
   });
 
@@ -42,7 +42,7 @@ describe('modal dialog openDialog function', () => {
   it('should add close button first, html content second', () => {
     makeOpenDialog(document, '<div data-testid="content"></div>');
     const modalDivChildren = sel(document.body, 'modal-div').childNodes;
-    
+
     assert.equal(modalDivChildren[0].getAttribute('data-testid'), 'modal-close-button');
     assert.equal(modalDivChildren[1].getAttribute('data-testid'), 'content');
   });
