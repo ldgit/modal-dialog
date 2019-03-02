@@ -1,6 +1,11 @@
 import assert from 'assert';
-import { makeOpenDialog } from '../index';
-import { getBrowserEnvironment, sel, clickOnElement } from './test-utils';
+import openDialog, { makeOpenDialog } from '../index';
+import {
+  getBrowserEnvironment,
+  sel,
+  clickOnElement,
+  find,
+} from './test-utils';
 
 describe('modal dialog openDialog function', () => {
   let document;
@@ -68,6 +73,38 @@ describe('modal dialog openDialog function', () => {
       click(modalOverlay);
 
       assert.strictEqual(document.body.innerHTML.trim(), '');
+    });
+  });
+
+  describe('production build', () => {
+    let oldDocument;
+    let oldProcessEnv;
+
+    beforeEach(() => {
+      oldProcessEnv = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'production';
+      oldDocument = global.document;
+      global.document = document;
+    });
+
+    afterEach(() => {
+      global.document = oldDocument;
+      process.env.NODE_ENV = oldProcessEnv;
+    });
+
+    it('should cleanup after itself when closed', () => {
+      assert.strictEqual(document.body.innerHTML.trim(), '', 'nothing before');
+
+      const closeDialog = openDialog('<div data-testid="content">Some content</div>');
+      assert.notEqual(document.body.querySelectorAll('div').length, 0, 'dialog is created');
+      closeDialog();
+
+      assert.strictEqual(document.body.innerHTML.trim(), '', 'nothing before');
+    });
+
+    it('should not have test id data attributes', () => {
+      openDialog('<div></div>');
+      assert.strictEqual(null, find(document, 'modal-div'));
     });
   });
 });

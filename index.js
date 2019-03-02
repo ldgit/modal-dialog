@@ -24,7 +24,9 @@ export function makeOpenDialog(document, htmlContent) {
 
 function createModalOverlay(document) {
   const modalOverlay = document.createElement('div');
-  modalOverlay.setAttribute('data-testid', 'modal-overlay');
+  if (process.env.NODE_ENV !== 'production') {
+    modalOverlay.setAttribute('data-testid', 'modal-overlay');
+  }
 
   return modalOverlay;
 }
@@ -33,7 +35,10 @@ function createModalDiv(document, htmlContent, closeDialog) {
   const modalDiv = document.createElement('div');
   const closeButton = createCloseButton(document, closeDialog);
 
-  modalDiv.setAttribute('data-testid', 'modal-div');
+  if (process.env.NODE_ENV !== 'production') {
+    modalDiv.setAttribute('data-testid', 'modal-div');
+    closeButton.setAttribute('data-testid', 'modal-close-button');
+  }
   modalDiv.innerHTML = htmlContent;
   modalDiv.insertBefore(closeButton, modalDiv.firstChild);
 
@@ -42,7 +47,6 @@ function createModalDiv(document, htmlContent, closeDialog) {
 
 function createCloseButton(document, closeDialog) {
   const closeButton = document.createElement('span');
-  closeButton.setAttribute('data-testid', 'modal-close-button');
   closeButton.addEventListener('click', closeDialog);
 
   return closeButton;
